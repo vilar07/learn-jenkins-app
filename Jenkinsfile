@@ -19,7 +19,7 @@ pipeline {
                     free -m || true
 
                     echo "=== Installing Dependencies ==="
-                    npm ci --verbose
+                    npm ci
 
                     echo "=== Building ==="
                     npm run build     
