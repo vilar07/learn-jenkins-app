@@ -12,10 +12,16 @@ pipeline {
             steps {
                 sh '''
                     ls -la
+                    echo "=== Info ==="
                     node --version
                     npm --version
-                    npm ci
-                    npm run build      
+                    free -m || true
+
+                    echo "=== Installing Dependencies ==="
+                    npm ci --verbose
+
+                    echo "=== Building ==="
+                    npm run build     
                 '''
             }
         }
