@@ -16,13 +16,19 @@ pipeline {
                     echo "=== Info ==="
                     node --version
                     npm --version
-                    free -m || true
 
                     echo "=== Installing Dependencies ==="
                     npm ci
 
                     echo "=== Building ==="
                     npm run build     
+                '''
+            }
+        }
+        stage('Test') {
+            steps {
+                sh '''
+                    echo "Test Stage"
                 '''
             }
         }
