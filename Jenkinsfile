@@ -38,6 +38,7 @@ pipeline {
                    npm install serve
                    node_modules/.bin/serve -s build &
                    sleep 10
+                   npm test
                    npx playwright test
                 '''
             }
@@ -45,7 +46,7 @@ pipeline {
     }
     post {
         always {
-            junit 'jest-results/junit.xml'
+            junit 'test-results/junit.xml'
         }
     }
 }
