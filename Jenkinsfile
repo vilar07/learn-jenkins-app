@@ -39,7 +39,7 @@ pipeline {
                    node_modules/.bin/serve -s build &
                    sleep 10
                    npm test
-                   npx playwright test
+                   npx playwright test --reporter=html
                 '''
             }
         }
