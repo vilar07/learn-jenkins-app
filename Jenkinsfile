@@ -25,19 +25,18 @@ pipeline {
                 '''
             }
         }
-        stage('Test') {
+        stage('E2E') {
             agent {
                 docker {
-                    image 'node:18-alpine'
+                    image 'mcr.microsoft.com/playwright:v1.57.0-noble'
                     args '--network host'
                     reuseNode true
                 }
             }
             steps {
                 sh '''
-                    echo "Test Stage"
-                    test -f build/index.html
-                    npm test
+                   npm install -g serve
+                   serve -s build
                 '''
             }
         }
