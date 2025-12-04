@@ -29,13 +29,13 @@ pipeline {
             agent {
                 docker {
                     image 'mcr.microsoft.com/playwright:v1.57.0-noble'
-                    args '--network host'
+                    args '--network host -u root:root'
                     reuseNode true
                 }
             }
             steps {
                 sh '''
-                   sudo npm install -g serve
+                   npm install -g serve
                    serve -s build
                    npx playwright test
                 '''
