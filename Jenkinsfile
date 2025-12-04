@@ -11,6 +11,7 @@ pipeline {
                 }
             }
             steps {
+                cleanWs()
                 sh '''
                     ls -la
                     echo "=== Info ==="
