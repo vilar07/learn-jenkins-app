@@ -26,38 +26,42 @@ pipeline {
             }
         }
 
-        stage('Test') {
-            agent {
-                docker {
-                    image 'node:18-alpine'
-                    args '--network host'
-                    reuseNode true
-                }
-            }
+        stage('Run Tests') {
+            parallel {
+                stage('Test') {
+                    agent {
+                        docker {
+                            image 'node:18-alpine'
+                            args '--network host'
+                            reuseNode true
+                        }
+                    }
 
-            steps {
-                sh '''
-                    #test -f build/index.html
-                    npm test
-                '''
-            }
-        }
-
-        stage('E2E') {
-            agent {
-                docker {
-                    image 'mcr.microsoft.com/playwright:v1.57.0-noble'
-                    args '--network host'
-                    reuseNode true
+                    steps {
+                        sh '''
+                            #test -f build/index.html
+                            npm test
+                        '''
+                    }
                 }
-            }
-            steps {
-                sh '''
-                   npm install serve
-                   node_modules/.bin/serve -s build &
-                   sleep 10
-                   npx playwright test --reporter=html
-                '''
+
+                stage('E2E') {
+                    agent {
+                        docker {
+                            image 'mcr.microsoft.com/playwright:v1.57.0-noble'
+                            args '--network host'
+                            reuseNode true
+                        }
+                    }
+                    steps {
+                        sh '''
+                        npm install serve
+                        node_modules/.bin/serve -s build &
+                        sleep 10
+                        npx playwright test --reporter=html
+                        '''
+                    }
+                }
             }
         }
     }
