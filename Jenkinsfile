@@ -43,10 +43,10 @@ pipeline {
                             npm test
                         '''
                     }
-                }
-                post {
-                    always {
-                        junit 'test-results/junit.xml'
+                    post {
+                        always {
+                            junit 'test-results/junit.xml'
+                        }
                     }
                 }
 
@@ -67,11 +67,11 @@ pipeline {
                         npm test
                         '''
                     }
-                }
-                post {
-                    always {
-                        junit 'test-results/junit.xml'
-                        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                    post {
+                        always {
+                            junit 'test-results/junit.xml'
+                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                        }
                     }
                 }
             }
