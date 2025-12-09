@@ -76,7 +76,7 @@ pipeline {
                     post {
                         always {
                             junit 'test-results/junit.xml'
-                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Local', reportTitles: '', useWrapperFileDirectly: true])
                         }
                     }
                 }
@@ -99,6 +99,33 @@ pipeline {
                     node_modules/.bin/netlify status
                     node_modules/.bin/netlify deploy --dir=build --prod
                 '''
+            }
+        }
+
+        stage('Prod E2E') {
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/playwright:v1.57.0-noble'
+                    args '--network host'
+                    reuseNode true
+                }
+            }
+
+            environment {
+                CI_ENVIRONMENT_URL = 'https://genuine-licorice-cbd8a7.netlify.app'
+            }
+
+            steps {
+                sh '''
+                npx playwright test --reporter=html
+                npm test
+                '''
+            }
+            post {
+                always {
+                    junit 'test-results/junit.xml'
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Playwright HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+                }
             }
         }
     }
