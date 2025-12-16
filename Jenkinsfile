@@ -10,9 +10,10 @@ pipeline {
     stages {
 
         stage('Docker'){
+            agent any
             steps{
                 sh '''
-                    docker build -t my-playwright .
+                    docker build --network=host -t my-playwright .
                 '''
             }
         }
