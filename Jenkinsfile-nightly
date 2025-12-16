@@ -1,0 +1,16 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Docker'){
+            agent any
+            steps{
+                sh '''
+                    docker build --network=host -t my-playwright .
+                '''
+            }
+        }
+        
+    }
+}

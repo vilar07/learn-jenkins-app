@@ -9,15 +9,6 @@ pipeline {
 
     stages {
 
-        stage('Docker'){
-            agent any
-            steps{
-                sh '''
-                    docker build --network=host -t my-playwright .
-                '''
-            }
-        }
-
         stage('Build') {
             agent {
                 docker {
