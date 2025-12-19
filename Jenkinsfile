@@ -39,6 +39,7 @@ pipeline {
                 docker {
                     image 'amazon/aws-cli:latest'
                     args "--network host --entrypoint=''"
+                    reuseNode true
                 }
             }
             environment {
